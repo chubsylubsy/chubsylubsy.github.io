@@ -90,43 +90,28 @@
     </div>
 
     <script>
-        function convertText() {
-            const lines = document.getElementById('inputText').value
-                .split('\n')
-                .filter(line => line.trim())
-                .map(line => {
-                    const colonIndex = line.indexOf(':');
-                    if (colonIndex === -1) return line;
-                    
-                    const arrowIndex = line.indexOf('»', colonIndex);
-                    const startIndex = arrowIndex !== -1 && arrowIndex - colonIndex <= 3 
-                        ? arrowIndex + 1 
-                        : colonIndex + 1;
-                    
-                    line = line.substring(startIndex);
-                    
-                    // Replace trailing arrow while preserving spaces
-                    if (line.endsWith('»')) {
-                        line = line.slice(0, -1);
-                    } else {
-                        line += '\n';
-                    }
-                    
-                    // Replace leading arrow while preserving spaces
-                    if (line.startsWith('»')) {
-                        line = ' ' + line.substring(1);
-                    }
-                    
-                    return line;
-                })
-                .join('');
+function convertText() {
+    const lines = document.getElementById('inputText').value
+        .split('\n')
+        .filter(line => line.trim())
+        .map(line => {
+            const colonIndex = line.indexOf(':');
+            if (colonIndex === -1) return line;
+            
+            const arrowIndex = line.indexOf('»', colonIndex);
+            const startIndex = arrowIndex !== -1 && arrowIndex - colonIndex <= 3 
+                ? arrowIndex + 1 
+                : colonIndex + 1;
+            
+            line = line.substring(startIndex);
+            
+            // Only handle trailing arrow
+            return line.endsWith('»') ? line.slice(0, -1) : line + '\n';
+        })
+        .join('');
 
-            document.getElementById('outputText').value = lines;
-        }
-
-        // Keyboard shortcut
-        document.getElementById('inputText').addEventListener('keydown', e => {
-            if (e.ctrlKey && e.key === 'Enter') convertText();
-        });
-    </script></body>
+    document.getElementById('outputText').value = lines;
+    }
+    </script>
+</body>
 </html>
