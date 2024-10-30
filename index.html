@@ -106,7 +106,7 @@ function convertText() {
             line = line.substring(startIndex);
             
             // Only handle trailing arrow
-            return line.endsWith('»') ? line.slice(0, -1) : line + '\n';
+            return line.endsWith('»') ? line.slice(0, -1) : line;
         })
         .join('');
 
