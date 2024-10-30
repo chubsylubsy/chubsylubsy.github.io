@@ -99,7 +99,7 @@
                     if (colonIndex === -1) return line;
                     
                     const arrowIndex = line.indexOf('»', colonIndex);
-                    const startIndex = arrowIndex !== -1 && arrowIndex - colonIndex <= 3 
+                    const startIndex = arrowIndex !== -1 && arrowIndex - colonIndex <= 2
                         ? arrowIndex + 1 
                         : colonIndex + 1;
                     
