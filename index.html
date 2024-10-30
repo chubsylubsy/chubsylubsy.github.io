@@ -100,8 +100,8 @@ function convertText() {
             
             const arrowIndex = line.indexOf('»', colonIndex);
             const startIndex = arrowIndex !== -1 && arrowIndex - colonIndex <= 3 
-                ? arrowIndex + 1 
-                : colonIndex + 1;
+                ? arrowIndex + 2 
+                : colonIndex + 2;
             
             line = line.substring(startIndex);
             
