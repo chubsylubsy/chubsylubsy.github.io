@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RP Text Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            height: calc(100vh - 40px);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .panel {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .text-area {
+            flex-grow: 1;
+            resize: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .convert-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        .convert-button:hover {
+            background-color: #0056b3;
+        }
+
+        #outputText {
+            background-color: #f8f8f8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <div class="panel-title">Input Text</div>
+            <textarea id="inputText" class="text-area" spellcheck="false"></textarea>
+        </div>
+
+        <div class="button-container">
+            <button class="convert-button" onclick="convertText()">Convert &gt;&gt;</button>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">Formatted Text</div>
+            <textarea id="outputText" class="text-area" readonly spellcheck="false"></textarea>
+        </div>
+    </div>
+
+    <script>
+        function convertText() {
+            const lines = document.getElementById('inputText').value
+                .split('\n')
+                .filter(line => line.trim())
+                .map(line => {
+                    const colonIndex = line.indexOf(':');
+                    if (colonIndex === -1) return line;
+                    
+                    const arrowIndex = line.indexOf('»', colonIndex);
+                    const startIndex = arrowIndex !== -1 && arrowIndex - colonIndex <= 3 
+                        ? arrowIndex + 1 
+                        : colonIndex + 1;
+                    
+                    line = line.slice(startIndex).trim();
+                    return line.endsWith('»') 
+                        ? line.slice(0, -1).trim()
+                        : line + '\n';
+                })
+                .join('');
+
+            document.getElementById('outputText').value = lines;
+        }
+
+        // Keyboard shortcut
+        document.getElementById('inputText').addEventListener('keydown', e => {
+            if (e.ctrlKey && e.key === 'Enter') convertText();
+        });
+    </script>
+</body>
+</html>
